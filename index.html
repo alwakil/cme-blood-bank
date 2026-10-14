@@ -153,15 +153,25 @@
     /* ===== MOBILE HEADER ===== */
     .mobile-header {
       display: none;
-      padding: 0.65rem 1rem;
+      padding: 0.6rem 0.9rem;
       background: var(--sidebar-bg);
       border-bottom: 1px solid var(--border);
       position: fixed; top: 0; left: 0; right: 0;
       z-index: 200;
-      align-items: center; justify-content: center;
+      align-items: center; justify-content: space-between;
     }
-    .mobile-header .hamburger { position: absolute; left: 1rem; }
-    .mobile-header .dept-badge { position: absolute; right: 1rem; }
+    .mh-left { display: flex; align-items: center; gap: 0.65rem; min-width: 0; }
+    .mh-left .brand-icon { width: 32px; height: 32px; font-size: 0.95rem; border-radius: 9px; }
+    .mh-left .brand-title { font-size: 0.85rem; }
+    .mh-left .brand-sub { font-size: 0.6rem; }
+    .mh-theme {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 1px solid var(--border); background: var(--surface);
+      font-size: 1rem; cursor: pointer; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .mh-theme:hover { border-color: var(--red); }
     .hamburger {
       width: 36px; height: 36px; border: 1px solid var(--border);
       border-radius: var(--radius-sm); background: var(--surface);
@@ -505,9 +515,10 @@
       color: #fff; font-weight: 800; font-size: 1.05rem; letter-spacing: 0.03em;
       display: flex; align-items: center; justify-content: center;
       box-shadow: 0 4px 16px rgba(239,68,68,0.35);
-      flex-shrink: 0;
+      flex-shrink: 0; overflow: hidden;
       transition: transform 0.2s;
     }
+    .dev-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .dev-card:hover .dev-avatar { transform: scale(1.06) rotate(-3deg); }
     .dev-info { text-align: left; }
     .dev-name { font-size: 1rem; font-weight: 700; color: var(--text); }
@@ -569,7 +580,7 @@
     }
     @media (max-width: 480px) {
       .main { padding: 4.2rem 0.75rem 1.5rem; }
-      .mobile-header .dept-badge { display: none; }
+      .mh-left .brand-title { font-size: 0.8rem; }
       .brand-title { font-size: 0.88rem; }
       .bg-grid { gap: 0.5rem; }
       .bg-card { padding: 0.8rem 0.4rem; }
@@ -589,15 +600,17 @@
 
   <!-- ===== MOBILE HEADER ===== -->
   <div class="mobile-header">
-    <button class="hamburger" id="sidebarToggle" aria-label="Open menu">&#9776;</button>
-    <div class="brand-inner">
-      <div class="brand-icon">🩸</div>
-      <div class="brand-text">
-        <span class="brand-title">CME Blood Bank</span>
-        <span class="brand-sub">RUET</span>
+    <div class="mh-left">
+      <button class="hamburger" id="sidebarToggle" aria-label="Open menu">&#9776;</button>
+      <div class="brand-inner">
+        <div class="brand-icon">🩸</div>
+        <div class="brand-text">
+          <span class="brand-title">CME Blood Bank</span>
+          <span class="brand-sub">RUET</span>
+        </div>
       </div>
     </div>
-    <span class="dept-badge">Dept. of CME</span>
+    <button class="mh-theme" id="mobileThemeToggle" aria-label="Toggle dark mode">🌙</button>
   </div>
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
@@ -892,7 +905,7 @@
         <div class="dev-section">
           <div class="dev-label">Developed by</div>
           <div class="dev-card">
-            <div class="dev-avatar">AW</div>
+            <div class="dev-avatar"><img src="dev-avatar.jpg" alt="Md Al Wakil Islam"></div>
             <div class="dev-info">
               <div class="dev-name">Md Al Wakil Islam</div>
               <div class="dev-role">Penetration Tester · Web Application Security · Bug Hunter</div>
@@ -996,20 +1009,28 @@
       if (meta) meta.setAttribute('content', isDark ? '#161822' : '#ffffff');
     }
 
+    function setThemeUI(isDark) {
+      const sidebarBtn = document.getElementById('themeToggle');
+      if (sidebarBtn) sidebarBtn.textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+      const headerBtn = document.getElementById('mobileThemeToggle');
+      if (headerBtn) headerBtn.textContent = isDark ? '☀️' : '🌙';
+      applyThemeColor(isDark);
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      localStorage.setItem('cme_theme', isDark ? 'dark' : 'light');
+      setThemeUI(isDark);
+    }
+
     function initTheme() {
       const saved = localStorage.getItem('cme_theme');
-      if (saved === 'dark') {
-        document.body.classList.add('dark');
-        document.getElementById('themeToggle').textContent = '☀️ Light Mode';
-        applyThemeColor(true);
-      }
-      document.getElementById('themeToggle').addEventListener('click', () => {
-        document.body.classList.toggle('dark');
-        const isDark = document.body.classList.contains('dark');
-        localStorage.setItem('cme_theme', isDark ? 'dark' : 'light');
-        document.getElementById('themeToggle').textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
-        applyThemeColor(isDark);
-      });
+      if (saved === 'dark') document.body.classList.add('dark');
+      setThemeUI(document.body.classList.contains('dark'));
+      document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+      const headerBtn = document.getElementById('mobileThemeToggle');
+      if (headerBtn) headerBtn.addEventListener('click', toggleTheme);
     }
 
     // ==================== DROPDOWNS ====================
