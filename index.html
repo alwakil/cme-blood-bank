@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CME Department Blood Bank - Ceramic & Metallurgical Engineering, RUET">
+  <title>CME Blood Bank | Ceramic & Metallurgical Engineering, RUET</title>
+  <link rel="manifest" href="manifest.json">
+  <meta id="themeColorMeta" name="theme-color" content="#ffffff">
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="CME Blood Bank">
+  <style>
+    :root {
+      --bg: #f0f2f5;
+      --sidebar-bg: #ffffff;
+      --surface: #ffffff;
+      --text: #1e2129;
+      --text-body: #545a64;
+      --text-muted: #666c78;
+      --border: #e5e7eb;
+      --border-light: #f3f4f6;
+      --red: #ef4444;
+      --red-light: #fef2f2;
+      --blue-soft: #eff6ff;
+      --blue-text: #2563eb;
+      --green-soft: #f0fdf4;
+      --green-text: #16a34a;
+      --pink-soft: #fdf2f8;
+      --pink-text: #db2777;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --shadow-card: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+      --shadow-lg: 0 4px 24px rgba(0,0,0,0.06);
+      --font: 'Inter', -apple-system, 'Segoe UI', system-ui, sans-serif;
+    }
+    .dark {
+      --bg: #0f1117;
+      --sidebar-bg: #161822;
+      --surface: #1e2030;
+      --text: #e5e7eb;
+      --text-body: #b3b9c4;
+      --text-muted: #8d93a0;
+      --border: #2a2d3a;
+      --border-light: #252838;
+      --red: #f87171;
+      --red-light: #2d1518;
+      --blue-soft: #111827;
+      --blue-text: #60a5fa;
+      --green-soft: #052e16;
+      --green-text: #4ade80;
+      --pink-soft: #2e0a1e;
+      --pink-text: #f472b6;
+      --shadow-card: 0 1px 3px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.15);
+      --shadow-lg: 0 4px 24px rgba(0,0,0,0.3);
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    .hidden { display: none !important; }
+
+    /* ===== LAYOUT WRAPPER ===== */
+    .app {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      width: 240px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      z-index: 100;
+      transition: transform 0.2s;
+    }
+    .sidebar-brand {
+      padding: 1.5rem 1.25rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-brand .brand-inner {
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .brand-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: var(--red);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 1.1rem; flex-shrink: 0;
+    }
+    .brand-text { display: flex; flex-direction: column; line-height: 1.2; }
+    .brand-title { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+    .brand-sub { font-size: 0.65rem; color: var(--text-muted); font-weight: 500; }
+
+    .sidebar-nav {
+      flex: 1; padding: 0.75rem; overflow-y: auto;
+    }
+    .sidebar-nav a {
+      display: flex; align-items: center; gap: 0.7rem;
+      padding: 0.65rem 0.85rem;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      color: var(--text-body);
+      font-size: 0.85rem; font-weight: 500;
+      transition: background 0.12s, color 0.12s;
+      margin-bottom: 2px;
+    }
+    .sidebar-nav a:hover { background: var(--border-light); color: var(--text); }
+    .sidebar-nav a.active { background: var(--red-light); color: var(--red); font-weight: 600; }
+    .nav-icon { font-size: 1.05rem; width: 22px; text-align: center; flex-shrink: 0; }
+
+    .sidebar-footer {
+      padding: 1rem 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+    .quote-card {
+      background: linear-gradient(135deg, var(--red) 0%, #dc2626 100%);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      color: #fff;
+    }
+    .quote-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; opacity: 0.8; margin-bottom: 0.3rem; }
+    .quote-text { font-size: 0.8rem; font-style: italic; line-height: 1.5; opacity: 0.95; }
+    .share-btn { margin-top: 0.6rem; padding: 0.3rem 0.8rem; background: rgba(255,255,255,0.2); border: none; border-radius: 5px; color: #fff; font-size: 0.72rem; font-weight: 600; cursor: pointer; }
+
+    .sidebar-theme-btn {
+      width: 100%; margin-top: 0.5rem;
+      padding: 0.45rem; background: var(--surface);
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      cursor: pointer; font-size: 0.85rem;
+      color: var(--text-body);
+      transition: border-color 0.12s;
+    }
+    .sidebar-theme-btn:hover { border-color: var(--red); }
+    .install-btn {
+      background: var(--green-soft); border-color: var(--green-text);
+      color: var(--green-text); font-weight: 600;
+    }
+    .install-btn:hover { border-color: var(--green-text); background: var(--green-text); color: #fff; }
+
+    /* ===== MOBILE HEADER ===== */
+    .mobile-header {
+      display: none;
+      padding: 0.75rem 1rem;
+      background: var(--sidebar-bg);
+      border-bottom: 1px solid var(--border);
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 200;
+      align-items: center; justify-content: space-between;
+    }
+    .hamburger {
+      width: 36px; height: 36px; border: 1px solid var(--border);
+      border-radius: var(--radius-sm); background: var(--surface);
+      cursor: pointer; font-size: 1.1rem; color: var(--text);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sidebar-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.3); z-index: 99;
+    }
+    .sidebar-overlay.active { display: block; }
+
+    /* ===== MAIN CONTENT ===== */
+    .main {
+      flex: 1;
+      margin-left: 240px;
+      padding: 1.5rem 2rem;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    /* ===== TOP BAR ===== */
+    .topbar {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .topbar-title { font-size: 0.8rem; color: var(--text-muted); }
+    .topbar-title strong { color: var(--text); font-weight: 600; }
+    .topbar-right { display: flex; align-items: center; gap: 0.75rem; }
+    .dept-badge {
+      font-size: 0.72rem; color: var(--text-body);
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 50px; padding: 0.3rem 0.9rem;
+      font-weight: 500;
+    }
+
+    /* ===== STAT CARDS ROW ===== */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .stat-card {
+      border-radius: var(--radius);
+      padding: 1.25rem 1.35rem;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-card);
+      display: flex; justify-content: space-between; align-items: flex-start;
+      transition: box-shadow 0.15s;
+    }
+    .stat-card:hover { box-shadow: var(--shadow-lg); }
+    .stat-card.blue { background: var(--blue-soft); border-color: rgba(37,99,235,0.12); }
+    .stat-card.pink { background: var(--pink-soft); border-color: rgba(219,39,119,0.12); }
+    .stat-card.green { background: var(--green-soft); border-color: rgba(22,163,74,0.12); }
+    .stat-card .stat-left .stat-label { font-size: 0.78rem; font-weight: 600; color: var(--text-body); margin-bottom: 0.3rem; }
+    .stat-card .stat-left .stat-num { font-size: 2rem; font-weight: 800; letter-spacing: -1px; line-height: 1; }
+    .stat-card.blue .stat-num { color: var(--blue-text); }
+    .stat-card.pink .stat-num { color: var(--pink-text); }
+    .stat-card.green .stat-num { color: var(--green-text); }
+    .stat-right { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: flex-start; justify-content: flex-end; max-width: 55%; }
+    .stat-mini {
+      font-size: 0.66rem; font-weight: 600;
+      color: var(--text-body); background: var(--surface);
+      border: 1px solid var(--border); border-radius: 50px;
+      padding: 0.2rem 0.6rem; white-space: nowrap;
+    }
+
+    /* donor statistics bars */
+    .stat-line { display: flex; align-items: center; gap: 0.65rem; padding: 0.42rem 0; }
+    .stat-g { width: 38px; font-weight: 700; font-size: 0.78rem; color: var(--red); flex-shrink: 0; }
+    .stat-bar { flex: 1; height: 6px; background: var(--border-light); border-radius: 3px; overflow: hidden; }
+    .stat-fill { height: 100%; background: var(--red); border-radius: 3px; opacity: 0.75; }
+    .stat-n { width: 34px; text-align: right; font-size: 0.75rem; color: var(--text-body); font-weight: 600; }
+    .stats-empty { text-align: center; padding: 2rem 1rem; color: var(--text-muted); font-size: 0.82rem; }
+
+    /* ===== CONTENT GRID ===== */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    /* ===== PANEL ===== */
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+    .panel.full { grid-column: 1 / -1; }
+    .panel-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 1.25rem 0.75rem;
+    }
+    .panel-title { font-size: 0.92rem; font-weight: 700; color: var(--text); }
+    .panel-action {
+      font-size: 0.75rem; color: var(--text-muted);
+      background: none; border: 1px solid var(--border);
+      border-radius: 6px; padding: 0.3rem 0.7rem; cursor: pointer;
+      transition: border-color 0.12s;
+    }
+    .panel-action:hover { border-color: var(--red); color: var(--red); }
+
+    .panel-body { padding: 0 1.25rem 1.25rem; }
+
+    /* ===== DONOR CARDS ===== */
+    .donor-item {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .donor-item:last-child { border-bottom: none; }
+    .donor-av {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--border-light);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.85rem; color: var(--text-body);
+      flex-shrink: 0;
+    }
+    .donor-info { flex: 1; min-width: 0; }
+    .donor-name { font-size: 0.85rem; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .donor-meta { font-size: 0.72rem; color: var(--text-muted); }
+    .donor-bg {
+      padding: 0.3rem 0.85rem;
+      border-radius: 50px;
+      font-weight: 700; font-size: 0.82rem;
+      background: var(--red-light);
+      color: var(--red);
+      border: 1px solid rgba(239,68,68,0.15);
+      flex-shrink: 0;
+    }
+
+    /* ===== SEARCH SECTION ===== */
+    .search-form {
+      display: flex; gap: 0.6rem; flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .search-field { flex: 1; min-width: 150px; }
+    .search-field label {
+      display: block; margin-bottom: 0.35rem;
+      font-size: 0.72rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--text-muted);
+    }
+    .search-field select {
+      width: 100%; padding: 0.55rem 0.75rem;
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      font-size: 0.85rem; background: var(--surface); color: var(--text);
+      appearance: none; cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 0.7rem center;
+    }
+    .btn {
+      padding: 0.55rem 1.3rem; border: none; border-radius: var(--radius-sm);
+      font-size: 0.82rem; font-weight: 600; cursor: pointer;
+      transition: background 0.12s; white-space: nowrap;
+    }
+    .btn-red { background: var(--red); color: #fff; }
+    .btn-red:hover { background: #dc2626; }
+    .btn-outline {
+      background: transparent; color: var(--text-body);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--red); color: var(--red); }
+    .btn-blue { background: #3b82f6; color: #fff; }
+    .btn-blue:hover { background: #2563eb; }
+
+    /* ===== RESULTS ===== */
+    .results-info {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 0.75rem; flex-wrap: wrap;
+      padding: 0.6rem 0.85rem; margin-bottom: 0.75rem;
+      background: var(--bg); border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+    }
+    .results-info strong { color: var(--red); }
+    .results-right { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+    .copy-btn {
+      padding: 0.35rem 0.9rem; border: 1px solid var(--red);
+      background: var(--red-light); color: var(--red);
+      border-radius: 50px; font-size: 0.75rem; font-weight: 600;
+      cursor: pointer; transition: background 0.12s, color 0.12s; white-space: nowrap;
+    }
+    .copy-btn:hover { background: var(--red); color: #fff; }
+    .copy-btn.copied { background: var(--green-text); border-color: var(--green-text); color: #fff; }
+
+    /* ===== BLOOD GROUP CARDS ===== */
+    .bg-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.65rem;
+    }
+    .bg-card {
+      text-align: center;
+      padding: 1rem 0.5rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      transition: box-shadow 0.12s;
+    }
+    .bg-card:hover { box-shadow: var(--shadow-card); }
+    .bg-card .bt {
+      font-size: 1.5rem; font-weight: 800;
+      color: var(--red); letter-spacing: -0.5px;
+    }
+    .bg-card .rh { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
+    .bg-card .gi { font-size: 0.68rem; color: var(--text-body); margin-top: 0.5rem; line-height: 1.45; text-align: left; padding: 0 0.2rem; }
+    .bg-card.universal { border-color: var(--red); background: var(--red-light); }
+    .bg-card.universal::before {
+      content: '\2605'; position: absolute; top: 6px; right: 10px;
+      font-size: 0.65rem; color: var(--red);
+    }
+    .bg-card { position: relative; }
+
+    /* ===== TABS ===== */
+    .tabs {
+      display: inline-flex; gap: 0.15rem; margin-bottom: 1rem;
+      background: var(--bg); padding: 0.2rem;
+      border-radius: var(--radius-sm);
+    }
+    .tab-btn {
+      padding: 0.45rem 1rem; border: none; border-radius: 6px;
+      background: transparent; color: var(--text-muted); cursor: pointer;
+      font-weight: 600; font-size: 0.8rem; transition: all 0.12s;
+    }
+    .tab-btn.active { background: var(--red); color: #fff; }
+    .tab-btn:hover:not(.active) { color: var(--red); }
+
+    /* ===== MATRIX ===== */
+    .mat-wrap { overflow-x: auto; border-radius: var(--radius-sm); }
+    table.mat { width: 100%; border-collapse: collapse; font-size: 0.78rem; min-width: 320px; }
+    table.mat th, table.mat td {
+      padding: 0.55rem 0.35rem; text-align: center;
+      border: 1px solid var(--border-light);
+    }
+    table.mat th { background: var(--bg); font-weight: 700; color: var(--red); font-size: 0.72rem; }
+    table.mat td.c { color: var(--green-text); font-weight: 700; }
+    table.mat td.i { color: var(--text-muted); }
+    table.mat td.d { background: var(--bg); font-weight: 700; }
+    .mat-legend { margin-top: 0.5rem; font-size: 0.72rem; color: var(--text-muted); }
+
+    /* ===== COMPATIBILITY ===== */
+    .compat-form {
+      display: flex; gap: 0.6rem; flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+    }
+    .compat-field { flex: 1; min-width: 140px; }
+    .compat-field label {
+      display: block; margin-bottom: 0.35rem;
+      font-size: 0.72rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--text-muted);
+    }
+    .compat-field select {
+      width: 100%; padding: 0.55rem 0.75rem;
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      font-size: 0.85rem; background: var(--surface); color: var(--text);
+      appearance: none; cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 0.7rem center;
+    }
+    .compat-result {
+      padding: 1rem 1.25rem; border-radius: var(--radius-sm);
+      text-align: center; margin-top: 0.75rem;
+      border: 1px solid transparent;
+    }
+    .compat-result.ok { background: var(--green-soft); border-color: var(--green-text); }
+    .compat-result.fail { background: var(--red-light); border-color: var(--red); }
+    .compat-result h3 { font-size: 1.05rem; margin-bottom: 0.25rem; }
+    .compat-result.ok h3 { color: var(--green-text); }
+    .compat-result.fail h3 { color: var(--red); }
+    .compat-result p { font-size: 0.85rem; color: var(--text-body); }
+    .compat-result .detail { font-size: 0.76rem; color: var(--text-muted); text-align: left; max-width: 400px; margin: 0.5rem auto 0; }
+
+    /* ===== FACTS ===== */
+    .fact-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
+    .fact-item {
+      padding: 0.85rem 1rem;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--red);
+    }
+    .fact-item h4 { margin-bottom: 0.2rem; font-size: 0.88rem; color: var(--red); font-weight: 700; }
+    .fact-item p { font-size: 0.82rem; color: var(--text-body); line-height: 1.55; }
+    .fact-item p + p { margin-top: 0.3rem; }
+    .faq-item {
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-item h4 { margin-bottom: 0.2rem; font-size: 0.88rem; font-weight: 600; }
+    .faq-item p { font-size: 0.82rem; color: var(--text-body); }
+    .faq-item p + p { margin-top: 0.35rem; }
+    .faq-item ul { margin: 0.4rem 0 0.4rem 1.15rem; }
+    .faq-item ul li { font-size: 0.82rem; color: var(--text-body); margin-bottom: 0.15rem; }
+    .bg-mini-grid {
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.4rem; margin: 0.6rem 0; max-width: 340px;
+    }
+    .bg-mini-grid span {
+      text-align: center; font-weight: 700; font-size: 0.82rem;
+      color: var(--red); background: var(--red-light);
+      border: 1px solid rgba(239,68,68,0.15);
+      border-radius: 8px; padding: 0.35rem 0;
+    }
+    .info-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin: 0.6rem 0; }
+    .info-table th, .info-table td { padding: 0.5rem 0.65rem; border: 1px solid var(--border-light); text-align: left; }
+    .info-table th { background: var(--bg); font-weight: 700; color: var(--text); font-size: 0.75rem; }
+    .info-table td { color: var(--text-body); }
+    .faq-source {
+      margin-top: 0.85rem; padding-top: 0.75rem;
+      border-top: 1px solid var(--border-light);
+      font-size: 0.72rem; color: var(--text-muted);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    footer .f-dept { font-weight: 600; font-size: 0.88rem; color: var(--text); }
+    footer .f-uni { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.1rem; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .content-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); width: min(270px, 82vw); }
+      .sidebar.open { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,0.15); }
+      .mobile-header { display: flex; }
+      .main { margin-left: 0; padding: 4.5rem 1rem 2rem; }
+      .stats-row { grid-template-columns: 1fr; }
+      .bg-grid { grid-template-columns: repeat(2, 1fr); }
+      .search-form, .compat-form { flex-direction: column; }
+      .btn { width: 100%; padding: 0.75rem 1.5rem; }
+      section { scroll-margin-top: 80px; }
+      .topbar .dept-badge { display: none; }
+      .panel-header { padding: 0.9rem 1rem 0.65rem; }
+      .panel-body { padding: 0 1rem 1rem; }
+      .donor-av { width: 36px; height: 36px; font-size: 0.8rem; }
+      .stat-card { padding: 1.1rem; }
+      .stat-num { font-size: 1.7rem; }
+      .stat-right { max-width: 100%; justify-content: flex-start; }
+      table.mat th, table.mat td { padding: 0.45rem 0.3rem; font-size: 0.72rem; }
+      .fact-grid2 { grid-template-columns: 1fr; }
+      /* prevent iOS Safari auto-zoom on form controls (needs >=16px) */
+      .search-field select, .compat-field select { font-size: 16px; }
+      /* bigger touch targets */
+      .hamburger { width: 44px; height: 44px; font-size: 1.2rem; }
+      .copy-btn { padding: 0.5rem 1.05rem; font-size: 0.8rem; }
+      .sidebar-nav a { padding: 0.75rem 0.9rem; font-size: 0.9rem; }
+      .panel-action { padding: 0.45rem 0.85rem; }
+      .tab-btn { padding: 0.55rem 1rem; }
+      .mobile-header { padding: 0.65rem 1rem; }
+    }
+    @media (max-width: 480px) {
+      .main { padding: 4.2rem 0.75rem 1.5rem; }
+      .mobile-header .dept-badge { display: none; }
+      .brand-title { font-size: 0.88rem; }
+      .bg-grid { gap: 0.5rem; }
+      .bg-card { padding: 0.8rem 0.4rem; }
+      .bg-card .bt { font-size: 1.3rem; }
+      .bg-card .gi { font-size: 0.62rem; }
+      .results-info { font-size: 0.78rem; }
+      .copy-btn { padding: 0.3rem 0.7rem; font-size: 0.7rem; }
+      .donor-name { font-size: 0.82rem; }
+      .donor-meta { font-size: 0.68rem; }
+      .donor-bg { font-size: 0.75rem; padding: 0.25rem 0.7rem; }
+      .tabs { width: 100%; }
+      .tab-btn { flex: 1; padding: 0.45rem 0.5rem; font-size: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== MOBILE HEADER ===== -->
+  <div class="mobile-header">
+    <button class="hamburger" id="sidebarToggle" aria-label="Open menu">&#9776;</button>
+    <div class="brand-inner">
+      <div class="brand-icon">🩸</div>
+      <div class="brand-text">
+        <span class="brand-title">CME Blood Bank</span>
+        <span class="brand-sub">RUET</span>
+      </div>
+    </div>
+    <span class="dept-badge">Dept. of CME</span>
+  </div>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- ===== SIDEBAR ===== -->
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-inner">
+          <div class="brand-icon">🩸</div>
+          <div class="brand-text">
+            <span class="brand-title">CME Blood Bank</span>
+            <span class="brand-sub">RUET</span>
+          </div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#dashboard" class="active"><span class="nav-icon">📊</span> Dashboard</a>
+        <a href="#donors"><span class="nav-icon">👥</span> Donors</a>
+        <a href="#info"><span class="nav-icon">🩸</span> Blood Info</a>
+        <a href="#compat"><span class="nav-icon">🔬</span> Compatibility</a>
+        <a href="#facts"><span class="nav-icon">📚</span> Facts & FAQ</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="quote-card">
+          <div class="quote-label">Quote of the day</div>
+          <div class="quote-text">"Donate your blood for a reason, let the reason to be life."</div>
+          <button class="share-btn">Share</button>
+        </div>
+        <button class="sidebar-theme-btn install-btn" id="installBtn" style="display:none;">📲 Install App</button>
+        <button class="sidebar-theme-btn" id="themeToggle" aria-label="Toggle theme">🌙 Dark Mode</button>
+      </div>
+    </aside>
+
+    <!-- ===== MAIN ===== -->
+    <div class="main">
+
+      <!-- TOP BAR -->
+      <div class="topbar">
+        <div>
+          <div class="topbar-title">Home / <strong>Dashboard</strong></div>
+        </div>
+        <div class="topbar-right">
+          <span class="dept-badge">Dept. of Ceramic &amp; Metallurgical Engineering</span>
+        </div>
+      </div>
+
+      <!-- ===== DASHBOARD SECTION ===== -->
+      <section id="dashboard">
+        <!-- STAT CARDS -->
+        <div class="stats-row">
+          <div class="stat-card blue">
+            <div class="stat-left">
+              <div class="stat-label">Total Donors</div>
+              <div class="stat-num" id="statTotal">231</div>
+            </div>
+            <div class="stat-right">
+              <span class="stat-mini">B+ 81</span>
+              <span class="stat-mini">O+ 68</span>
+              <span class="stat-mini">A+ 50</span>
+            </div>
+          </div>
+          <div class="stat-card pink">
+            <div class="stat-left">
+              <div class="stat-label">Series Available</div>
+              <div class="stat-num" id="statSeries">4</div>
+            </div>
+            <div class="stat-right">
+              <span class="stat-mini">2021-2022</span>
+              <span class="stat-mini">2022-2023</span>
+              <span class="stat-mini">2023-2024</span>
+              <span class="stat-mini">2024-2025</span>
+            </div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-left">
+              <div class="stat-label">Blood Groups</div>
+              <div class="stat-num" id="statGroups">8</div>
+            </div>
+            <div class="stat-right">
+              <span class="stat-mini">A+</span>
+              <span class="stat-mini">B+</span>
+              <span class="stat-mini">O+</span>
+              <span class="stat-mini">AB+</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SEARCH + DONOR LIST -->
+        <div class="content-grid">
+          <!-- LEFT: SEARCH -->
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">Search Donor</span>
+              <span class="panel-action" id="resetBtn">Reset</span>
+            </div>
+            <div class="panel-body">
+              <div class="search-form">
+                <div class="search-field">
+                  <label for="bloodSelect">Blood Group</label>
+                  <select id="bloodSelect"><option value="">All Groups</option></select>
+                </div>
+                <div class="search-field">
+                  <label for="seriesSelect">Series</label>
+                  <select id="seriesSelect"><option value="">All Series</option></select>
+                </div>
+                <button class="btn btn-red" id="searchBtn">Search</button>
+              </div>
+              <div id="resultsSection" class="hidden">
+                <div class="results-info">
+                  <span><strong id="resultCount">0</strong> donor(s) found</span>
+                  <span class="results-right">
+                    <span id="resultMeta"></span>
+                    <button class="copy-btn" id="copyAllBtn">📋 Copy All</button>
+                  </span>
+                </div>
+                <div id="donorList" style="min-height:40px;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: DONOR STATISTICS -->
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">Donor Statistics</span>
+              <span class="panel-action" style="cursor:default;">By Blood Group</span>
+            </div>
+            <div class="panel-body" id="donorStats">
+              <div class="stats-empty">Loading data…</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== BLOOD INFO SECTION ===== -->
+      <section id="donors" style="margin-top:1.5rem;">
+        <div class="content-grid">
+          <div class="panel full">
+            <div class="panel-header">
+              <span class="panel-title">Blood Group Directory</span>
+            </div>
+            <div class="panel-body">
+              <div class="bg-grid" id="groupsGrid"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== BLOOD INFO TABS ===== -->
+      <section id="info" style="margin-top:1.5rem;">
+        <div class="content-grid">
+          <div class="panel full">
+            <div class="panel-header">
+              <span class="panel-title">Blood Group Charts</span>
+            </div>
+            <div class="panel-body">
+              <div class="tabs">
+                <button class="tab-btn active" data-tab="donate">Who Can Donate</button>
+                <button class="tab-btn" data-tab="receive">Who Can Receive</button>
+              </div>
+              <div class="tab-content" id="donate">
+                <p style="margin-bottom:0.6rem;font-size:0.82rem;color:var(--text-body);font-weight:600;">Donation Chart (Donor → Recipient)</p>
+                <div class="mat-wrap"><table class="mat" id="donateMatrix"></table></div>
+                <p class="mat-legend">✓ = Compatible &nbsp;|&nbsp; ✗ = Incompatible</p>
+              </div>
+              <div class="tab-content hidden" id="receive">
+                <p style="margin-bottom:0.6rem;font-size:0.82rem;color:var(--text-body);font-weight:600;">Receiving Chart (Recipient ← Donor)</p>
+                <div class="mat-wrap"><table class="mat" id="receiveMatrix"></table></div>
+                <p class="mat-legend">✓ = Compatible &nbsp;|&nbsp; ✗ = Incompatible</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== COMPATIBILITY ===== -->
+      <section id="compat" style="margin-top:1.5rem;">
+        <div class="content-grid">
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">Compatibility Checker</span>
+            </div>
+            <div class="panel-body">
+              <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:0.85rem;">Select donor and patient blood groups to check transfusion compatibility.</p>
+              <div class="compat-form">
+                <div class="compat-field">
+                  <label for="donorGroup">Donor Group</label>
+                  <select id="donorGroup"><option value="">Select</option></select>
+                </div>
+                <div class="compat-field">
+                  <label for="patientGroup">Patient Group</label>
+                  <select id="patientGroup"><option value="">Select</option></select>
+                </div>
+                <button class="btn btn-red" id="checkCompatBtn" style="align-self:flex-end;">Check</button>
+              </div>
+              <div id="compatResult" class="compat-result hidden"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== FACTS & FAQ ===== -->
+      <section id="facts" style="margin-top:1.5rem;">
+        <div class="content-grid">
+          <div class="panel full">
+            <div class="panel-header">
+              <span class="panel-title">🩸 Blood Groups &amp; Blood Donation in Bangladesh</span>
+            </div>
+            <div class="panel-body">
+              <div class="fact-grid2">
+                <div class="fact-item">
+                  <h4>🔬 What Is a Blood Group?</h4>
+                  <p>A blood group is determined by the presence or absence of specific antigens on the surface of red blood cells (RBCs). The ABO and RhD systems are two of the most widely used systems for classifying blood groups.</p>
+                </div>
+                <div class="fact-item">
+                  <h4>💧 What Is the Rh Factor?</h4>
+                  <p>The Rh factor generally refers to the RhD antigen.</p>
+                  <p><strong>Rh-positive (+):</strong> the D antigen is present. &nbsp;<strong>Rh-negative (−):</strong> the D antigen is absent.</p>
+                  <p>Examples include A+, O+, B−, and AB−.</p>
+                </div>
+                <div class="fact-item">
+                  <h4>❤️ Universal Donor</h4>
+                  <p><strong>O Negative (O−)</strong> is commonly known as the universal donor for red blood cell transfusions because its red blood cells do not carry A, B, or RhD antigens. However, compatibility testing is still important whenever possible, including in emergencies.</p>
+                </div>
+                <div class="fact-item">
+                  <h4>👑 Universal Recipient</h4>
+                  <p><strong>AB Positive (AB+)</strong> is commonly known as the universal recipient for red blood cell transfusions, as people with this blood group can generally receive red blood cells from all eight main ABO/RhD blood groups. However, other blood group antigens can still cause incompatibility, so appropriate testing is necessary.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel full">
+            <div class="panel-header">
+              <span class="panel-title">Frequently Asked Questions (FAQ)</span>
+            </div>
+            <div class="panel-body">
+              <div class="faq-item">
+                <h4>How Many Blood Groups Are There?</h4>
+                <p>There are eight main blood types when classified using the ABO system and the RhD factor:</p>
+                <div class="bg-mini-grid">
+                  <span>A+</span><span>A−</span><span>B+</span><span>B−</span>
+                  <span>AB+</span><span>AB−</span><span>O+</span><span>O−</span>
+                </div>
+                <p>There are many additional blood group systems beyond ABO and RhD, so the total number of blood group types is not limited to eight.</p>
+              </div>
+              <div class="faq-item">
+                <h4>How Often Can a Person Donate Blood in Bangladesh?</h4>
+                <p>According to the Bangladesh Blood Transfusion Society's published FAQ, a healthy person can generally donate whole blood once every <strong>four months</strong> (approximately 120 days).</p>
+                <p>However, eligibility depends on the donor's health, haemoglobin level, and the blood donation centre's screening requirements.</p>
+              </div>
+              <div class="faq-item">
+                <h4>How Much Blood Is Collected Per Donation?</h4>
+                <p>In Bangladesh, approximately <strong>350–450 mL</strong> of blood is commonly collected during a whole blood donation.</p>
+                <p>The exact amount depends on the donor's eligibility, body weight, and the blood collection bag used.</p>
+              </div>
+              <div class="faq-item">
+                <h4>Why Do We Need Blood Donors?</h4>
+                <p>Donated blood and its components are essential for many medical treatments, including:</p>
+                <ul>
+                  <li>Accidents and severe blood loss</li>
+                  <li>Major surgeries</li>
+                  <li>Thalassaemia and certain other blood disorders</li>
+                  <li>Cancer treatment</li>
+                  <li>Childbirth complications and other medical emergencies</li>
+                </ul>
+                <p>Voluntary blood donation plays an important role in maintaining a safe and adequate blood supply in Bangladesh.</p>
+              </div>
+              <div class="faq-item">
+                <h4>How Long Can Donated Blood Be Stored?</h4>
+                <p>The storage period depends on the blood component and the storage method.</p>
+                <table class="info-table">
+                  <thead>
+                    <tr><th>Blood Component</th><th>Typical Storage Period</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Whole blood / packed red blood cells (CPDA-1)</td><td>Up to approximately 35 days</td></tr>
+                    <tr><td>Red blood cells with certain additive solutions</td><td>Up to approximately 42 days</td></tr>
+                    <tr><td>Platelets</td><td>Generally up to 5 days</td></tr>
+                    <tr><td>Fresh Frozen Plasma (FFP)</td><td>Approximately 1 year under frozen storage</td></tr>
+                  </tbody>
+                </table>
+                <p>Storage periods can vary depending on the preservative solution, collection bag, storage temperature, and applicable standards. Always check the expiry date on the blood unit's label and follow the blood bank's instructions.</p>
+              </div>
+              <p class="faq-source">Sources: World Health Organization (WHO); Bangladesh Blood Transfusion Society (BTSB).</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer>
+        <p class="f-dept">Department of Ceramic &amp; Metallurgical Engineering</p>
+        <p class="f-uni">Rajshahi University of Engineering &amp; Technology (RUET)</p>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    // ==================== CONSTANTS ====================
+    const BLOOD_GROUPS = [
+      { group: 'A+',  canDonateTo: ['A+','AB+'],           canReceiveFrom: ['A+','A-','O+','O-'], color: '#e53935', universal: false },
+      { group: 'A-',  canDonateTo: ['A+','A-','AB+','AB-'], canReceiveFrom: ['A-','O-'],             color: '#ff7043', universal: false },
+      { group: 'B+',  canDonateTo: ['B+','AB+'],           canReceiveFrom: ['B+','B-','O+','O-'], color: '#1e88e5', universal: false },
+      { group: 'B-',  canDonateTo: ['B+','B-','AB+','AB-'], canReceiveFrom: ['B-','O-'],             color: '#42a5f5', universal: false },
+      { group: 'AB+', canDonateTo: ['AB+'],                 canReceiveFrom: ['A+','A-','B+','B-','AB+','AB-','O+','O-'], color: '#8e24aa', universal: false },
+      { group: 'AB-', canDonateTo: ['AB+','AB-'],           canReceiveFrom: ['A-','B-','AB-','O-'], color: '#ab47bc', universal: false },
+      { group: 'O+',  canDonateTo: ['O+','A+','B+','AB+'], canReceiveFrom: ['O+','O-'],             color: '#43a047', universal: false },
+      { group: 'O-',  canDonateTo: ['O+','O-','A+','A-','B+','B-','AB+','AB-'], canReceiveFrom: ['O-'], color: '#66bb6a', universal: true }
+    ];
+
+    const SERIES_LIST = ['2021-22', '2022-23', '2023-24', '2024-25'];
+    const SERIES_SHORT = { '2021-22': '21', '2022-23': '22', '2023-24': '23', '2024-25': '24' };
+    const SERIES_FULL = { '2021-22': '2021-2022', '2022-23': '2022-2023', '2023-24': '2023-2024', '2024-25': '2024-2025' };
+
+    // ==================== STATE ====================
+    let allDonors = [];
+    let filteredDonors = [];
+    let currentFilter = { blood: '', series: '' };
+
+    // ==================== INIT ====================
+    document.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      initBloodSelect();
+      initSeriesSelect();
+      initGroupsGrid();
+      initMatrices();
+      initCompatibility();
+      initTabs();
+      initSearch();
+      initSidebar();
+    });
+
+    // ==================== SIDEBAR ====================
+    function closeSidebar(sidebar, overlay) {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function initSidebar() {
+      const toggle = document.getElementById('sidebarToggle');
+      const overlay = document.getElementById('sidebarOverlay');
+      const sidebar = document.getElementById('sidebar');
+      const links = sidebar.querySelectorAll('.sidebar-nav a');
+
+      toggle.addEventListener('click', () => {
+        const willOpen = !sidebar.classList.contains('open');
+        sidebar.classList.toggle('open', willOpen);
+        overlay.classList.toggle('active', willOpen);
+        document.body.style.overflow = willOpen ? 'hidden' : '';
+      });
+      overlay.addEventListener('click', () => closeSidebar(sidebar, overlay));
+
+      links.forEach(link => {
+        link.addEventListener('click', () => {
+          links.forEach(l => l.classList.remove('active'));
+          link.classList.add('active');
+          closeSidebar(sidebar, overlay);
+        });
+      });
+    }
+
+    // ==================== THEME ====================
+    function applyThemeColor(isDark) {
+      const meta = document.getElementById('themeColorMeta');
+      if (meta) meta.setAttribute('content', isDark ? '#161822' : '#ffffff');
+    }
+
+    function initTheme() {
+      const saved = localStorage.getItem('cme_theme');
+      if (saved === 'dark') {
+        document.body.classList.add('dark');
+        document.getElementById('themeToggle').textContent = '☀️ Light Mode';
+        applyThemeColor(true);
+      }
+      document.getElementById('themeToggle').addEventListener('click', () => {
+        document.body.classList.toggle('dark');
+        const isDark = document.body.classList.contains('dark');
+        localStorage.setItem('cme_theme', isDark ? 'dark' : 'light');
+        document.getElementById('themeToggle').textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+        applyThemeColor(isDark);
+      });
+    }
+
+    // ==================== DROPDOWNS ====================
+    function initBloodSelect() {
+      const sel = document.getElementById('bloodSelect');
+      BLOOD_GROUPS.forEach(bg => {
+        const opt = document.createElement('option');
+        opt.value = bg.group;
+        opt.textContent = bg.group;
+        sel.appendChild(opt);
+      });
+    }
+
+    function initSeriesSelect() {
+      const sel = document.getElementById('seriesSelect');
+      SERIES_LIST.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s;
+        opt.textContent = SERIES_SHORT[s];
+        sel.appendChild(opt);
+      });
+    }
+
+    // ==================== SEARCH ====================
+    function initSearch() {
+      document.getElementById('searchBtn').addEventListener('click', performSearch);
+      document.getElementById('resetBtn').addEventListener('click', resetSearch);
+      document.getElementById('copyAllBtn').addEventListener('click', copyAllResults);
+    }
+
+    function performSearch() {
+      currentFilter.blood = document.getElementById('bloodSelect').value;
+      currentFilter.series = document.getElementById('seriesSelect').value;
+
+      filteredDonors = allDonors.filter(d => {
+        if (currentFilter.blood && d.group !== currentFilter.blood) return false;
+        if (currentFilter.series && d.series !== currentFilter.series) return false;
+        return true;
+      });
+
+      filteredDonors.sort((a, b) => a.roll.localeCompare(b.roll));
+      renderResults();
+      document.getElementById('resultsSection').classList.remove('hidden');
+    }
+
+    function resetSearch() {
+      document.getElementById('bloodSelect').value = '';
+      document.getElementById('seriesSelect').value = '';
+      currentFilter = { blood: '', series: '' };
+      document.getElementById('resultsSection').classList.add('hidden');
+      document.getElementById('donorList').innerHTML = '';
+    }
+
+    function renderResults() {
+      const list = document.getElementById('donorList');
+
+      let html = '';
+      if (filteredDonors.length === 0) {
+        html = '<div style="text-align:center;padding:2rem;color:var(--text-muted)">No donors found for the selected criteria.</div>';
+      } else {
+        html = filteredDonors.map(d => {
+          const initials = d.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+          return `
+          <div class="donor-item">
+            <div class="donor-av">${initials}</div>
+            <div class="donor-info">
+              <div class="donor-name">${escapeHtml(d.name)}</div>
+              <div class="donor-meta">Roll: ${d.roll} · Series ${SERIES_FULL[d.series] || d.series}</div>
+            </div>
+            <div class="donor-bg">${d.group}</div>
+          </div>`;
+        }).join('');
+      }
+      list.innerHTML = html;
+
+      const parts = [];
+      if (currentFilter.blood) parts.push(`Blood: ${currentFilter.blood}`);
+      if (currentFilter.series) parts.push(`Series: ${SERIES_FULL[currentFilter.series]}`);
+      document.getElementById('resultCount').textContent = `${filteredDonors.length}`;
+      document.getElementById('resultMeta').textContent = parts.join(' · ') || 'All donors';
+      document.getElementById('copyAllBtn').style.display = filteredDonors.length ? '' : 'none';
+    }
+
+    // ==================== COPY ALL ====================
+    function copyAllResults() {
+      if (!filteredDonors.length) return;
+
+      const parts = [];
+      if (currentFilter.blood) parts.push(`Blood Group: ${currentFilter.blood}`);
+      if (currentFilter.series) parts.push(`Series: ${SERIES_FULL[currentFilter.series]}`);
+      const lines = filteredDonors.map((d, i) =>
+        `${i + 1}. ${d.name} — Roll ${d.roll} — Series ${SERIES_FULL[d.series] || d.series} — ${d.group}`
+      );
+      const text = [
+        `CME Blood Bank — Donor List (${filteredDonors.length} donors)`,
+        parts.join(' · ') || 'Filter: All donors',
+        '',
+        ...lines
+      ].join('\n');
+
+      const btn = document.getElementById('copyAllBtn');
+      const markDone = () => {
+        btn.textContent = '✓ Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = '📋 Copy All';
+          btn.classList.remove('copied');
+        }, 1500);
+      };
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(markDone).catch(() => { fallbackCopy(text); markDone(); });
+      } else {
+        fallbackCopy(text);
+        markDone();
+      }
+    }
+
+    function fallbackCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) { /* clipboard unavailable */ }
+      document.body.removeChild(ta);
+    }
+
+    // ==================== BLOOD GROUPS GRID ====================
+    function initGroupsGrid() {
+      const grid = document.getElementById('groupsGrid');
+      grid.innerHTML = BLOOD_GROUPS.map(bg => `
+        <div class="bg-card ${bg.universal ? 'universal' : ''}" data-group="${bg.group}" style="border-color:${bg.color}">
+          <div class="bt">${bg.group}</div>
+          <div class="rh">${bg.group.endsWith('+') ? 'Rh Positive' : 'Rh Negative'}</div>
+          <div class="gi">
+            <strong>Donates to:</strong> ${bg.canDonateTo.join(', ')}<br>
+            <strong>Receives from:</strong> ${bg.canReceiveFrom.join(', ')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ==================== STATS ====================
+    function updateStats() {
+      const t = document.getElementById('statTotal');
+      if (t && allDonors.length) t.textContent = allDonors.length;
+      const s = document.getElementById('statSeries');
+      if (s && allDonors.length) s.textContent = new Set(allDonors.map(d => d.series)).size;
+      const g = document.getElementById('statGroups');
+      if (g) g.textContent = BLOOD_GROUPS.length;
+      renderDonorStats();
+    }
+
+    function renderDonorStats() {
+      const el = document.getElementById('donorStats');
+      if (!el) return;
+      if (!allDonors.length) {
+        el.innerHTML = '<div class="stats-empty">No data available.</div>';
+        return;
+      }
+      const counts = {};
+      allDonors.forEach(d => { counts[d.group] = (counts[d.group] || 0) + 1; });
+      const max = Math.max(...Object.values(counts));
+      el.innerHTML = Object.entries(counts)
+        .sort((a, b) => b[1] - a[1])
+        .map(([g, n]) => `
+          <div class="stat-line">
+            <span class="stat-g">${g}</span>
+            <div class="stat-bar"><div class="stat-fill" style="width:${Math.round(n / max * 100)}%"></div></div>
+            <span class="stat-n">${n}</span>
+          </div>`).join('');
+    }
+
+    // ==================== MATRICES ====================
+    function initMatrices() {
+      const groups = BLOOD_GROUPS.map(b => b.group);
+      const renderCell = (from, to) => {
+        if (from === to) return '<td class="d">—</td>';
+        const donorBg = BLOOD_GROUPS.find(b => b.group === from);
+        const ok = donorBg.canDonateTo.includes(to);
+        return ok ? '<td class="c">✓</td>' : '<td class="i">✗</td>';
+      };
+
+      let donateHtml = '<tr><th>Donor ↓ / Recipient →</th>' + groups.map(g => `<th>${g}</th>`).join('') + '</tr>';
+      BLOOD_GROUPS.forEach(donor => {
+        donateHtml += `<tr><th>${donor.group}</th>`;
+        groups.forEach(recipient => { donateHtml += renderCell(donor.group, recipient); });
+        donateHtml += '</tr>';
+      });
+      document.getElementById('donateMatrix').innerHTML = donateHtml;
+
+      let receiveHtml = '<tr><th>Recipient ↓ / Donor →</th>' + groups.map(g => `<th>${g}</th>`).join('') + '</tr>';
+      BLOOD_GROUPS.forEach(recipient => {
+        receiveHtml += `<tr><th>${recipient.group}</th>`;
+        groups.forEach(donor => {
+          if (recipient.group === donor) { receiveHtml += '<td class="d">—</td>'; }
+          else {
+            const ok = recipient.canReceiveFrom.includes(donor);
+            receiveHtml += ok ? '<td class="c">✓</td>' : '<td class="i">✗</td>';
+          }
+        });
+        receiveHtml += '</tr>';
+      });
+      document.getElementById('receiveMatrix').innerHTML = receiveHtml;
+    }
+
+    // ==================== COMPATIBILITY ====================
+    function initCompatibility() {
+      const selects = [document.getElementById('donorGroup'), document.getElementById('patientGroup')];
+      selects.forEach(sel => {
+        BLOOD_GROUPS.forEach(bg => {
+          const opt = document.createElement('option');
+          opt.value = bg.group;
+          opt.textContent = bg.group;
+          sel.appendChild(opt);
+        });
+      });
+      document.getElementById('checkCompatBtn').addEventListener('click', checkCompatibility);
+    }
+
+    function checkCompatibility() {
+      const donor = document.getElementById('donorGroup').value;
+      const patient = document.getElementById('patientGroup').value;
+      const resultEl = document.getElementById('compatResult');
+
+      if (!donor || !patient) {
+        resultEl.className = 'compat-result';
+        resultEl.innerHTML = '<h3 style="color:var(--text-muted)">Please select both donor and patient blood groups.</h3>';
+        resultEl.classList.remove('hidden');
+        return;
+      }
+
+      const donorBg = BLOOD_GROUPS.find(b => b.group === donor);
+      const patientBg = BLOOD_GROUPS.find(b => b.group === patient);
+      const compatible = donorBg.canDonateTo.includes(patient);
+
+      if (compatible) {
+        resultEl.className = 'compat-result ok';
+        resultEl.innerHTML = `
+          <h3>✓ Compatible</h3>
+          <p style="margin-bottom:0.5rem"><strong>${donor}</strong> can donate to <strong>${patient}</strong></p>
+          <div style="font-size:0.88rem;color:var(--text-muted);text-align:left;max-width:400px;margin:0 auto">
+            <div>• ${donor} donates to: ${donorBg.canDonateTo.join(', ')}</div>
+            <div>• ${patient} receives from: ${patientBg.canReceiveFrom.join(', ')}</div>
+          </div>`;
+      } else {
+        resultEl.className = 'compat-result fail';
+        resultEl.innerHTML = `
+          <h3>✗ Not Compatible</h3>
+          <p style="margin-bottom:0.5rem"><strong>${donor}</strong> cannot donate to <strong>${patient}</strong></p>
+          <div style="font-size:0.88rem;color:var(--text-muted);text-align:left;max-width:400px;margin:0 auto">
+            <div>• ${donor} donates to: ${donorBg.canDonateTo.join(', ')}</div>
+            <div>• ${patient} receives from: ${patientBg.canReceiveFrom.join(', ')}</div>
+          </div>`;
+      }
+      resultEl.classList.remove('hidden');
+    }
+
+    // ==================== TABS ====================
+    function initTabs() {
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+          btn.classList.add('active');
+          document.getElementById(btn.dataset.tab).classList.remove('hidden');
+        });
+      });
+    }
+
+    // ==================== UTILS ====================
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    // ==================== LOAD DATA ====================
+    async function loadData() {
+      let dataUrl = 'DATA_URL_PLACEHOLDER';
+      if (dataUrl === 'DATA_URL_PLACEHOLDER') {
+        dataUrl = 'CME_donors_clean.csv';
+      }
+      try {
+        const res = await fetch(dataUrl);
+        if (!res.ok) throw new Error('Failed to load');
+        const text = await res.text();
+        let raw;
+        if (dataUrl.endsWith('.csv')) {
+          raw = text.split('\n').slice(1).map(line => line.split(',')).filter(p => p.length >= 4);
+        } else {
+          raw = JSON.parse(text);
+        }
+        allDonors = raw.map(r => ({
+          name: String(r[0] || '').trim(),
+          roll: String(r[1] || '').trim(),
+          series: String(r[2] || '').trim(),
+          group: String(r[3] || '').toUpperCase().trim()
+        })).filter(r => r.name && r.roll && r.group);
+        console.log('Loaded', allDonors.length, 'donors');
+        updateStats();
+      } catch (err) {
+        console.error('Data load error:', err);
+        renderDonorStats();
+        alert('Unable to connect to the database. Make sure CME_donors_clean.csv is in the same folder, or that the Apps Script URL in index.html is correct.');
+      }
+    }
+
+    loadData();
+
+    // ==================== PWA: INSTALL + SERVICE WORKER ====================
+    let deferredInstallPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      const btn = document.getElementById('installBtn');
+      if (btn) btn.style.display = 'block';
+    });
+
+    window.addEventListener('appinstalled', () => {
+      const btn = document.getElementById('installBtn');
+      if (btn) btn.style.display = 'none';
+      deferredInstallPrompt = null;
+    });
+
+    const installBtn = document.getElementById('installBtn');
+    if (installBtn) {
+      installBtn.addEventListener('click', async () => {
+        if (!deferredInstallPrompt) return;
+        deferredInstallPrompt.prompt();
+        try { await deferredInstallPrompt.userChoice; } catch (e) { /* dismissed */ }
+        deferredInstallPrompt = null;
+        installBtn.style.display = 'none';
+      });
+    }
+
+    if ('serviceWorker' in navigator && (location.protocol === 'http:' || location.protocol === 'https:')) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .catch((err) => console.warn('Service worker registration failed:', err));
+      });
+    }
+  </script>
+</body>
+</html>
