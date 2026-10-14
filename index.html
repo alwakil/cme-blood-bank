@@ -153,13 +153,15 @@
     /* ===== MOBILE HEADER ===== */
     .mobile-header {
       display: none;
-      padding: 0.75rem 1rem;
+      padding: 0.65rem 1rem;
       background: var(--sidebar-bg);
       border-bottom: 1px solid var(--border);
       position: fixed; top: 0; left: 0; right: 0;
       z-index: 200;
-      align-items: center; justify-content: space-between;
+      align-items: center; justify-content: center;
     }
+    .mobile-header .hamburger { position: absolute; left: 1rem; }
+    .mobile-header .dept-badge { position: absolute; right: 1rem; }
     .hamburger {
       width: 36px; height: 36px; border: 1px solid var(--border);
       border-radius: var(--radius-sm); background: var(--surface);
@@ -517,7 +519,7 @@
       .sidebar-nav a { padding: 0.75rem 0.9rem; font-size: 0.9rem; }
       .panel-action { padding: 0.45rem 0.85rem; }
       .tab-btn { padding: 0.55rem 1rem; }
-      .mobile-header { padding: 0.65rem 1rem; }
+      .mobile-header { display: flex; }
     }
     @media (max-width: 480px) {
       .main { padding: 4.2rem 0.75rem 1.5rem; }
